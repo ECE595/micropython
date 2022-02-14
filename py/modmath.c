@@ -208,16 +208,25 @@ STATIC mp_int_t gcd_func(mp_int_t x, mp_int_t y) {
     if (x > y) return gcd_func(x - y, y);
     return gcd_func(x, y - x);
 }
-STATIC mp_obj_t mp_math_gcd(mp_obj_t x_obj, mp_obj_t y_obj) {
-    mp_int_t x = mp_obj_get_int(x_obj);
-    mp_int_t y = mp_obj_get_int(y_obj);
+STATIC mp_obj_t mp_math_gcd(size_t n_args, const mp_obj_t *args) {
+    mp_int_t e = mp_obj_get_int(args[--n_args]);
+    mp_int_t d = mp_obj_get_int(args[--n_args]);
     // calc absolute value manually, makes it unnecessary to include stdlib
-    if (x < 0) x *= -1;
-    if (y < 0) y *= -1;
-    mp_int_t ans = gcd_func(x, y);
+    if (d < 0) d *= -1;
+    if (e < 0) e *= -1;
+
+    mp_int_t ans = gcd_func(d, e);
+    if (n_args == 0) return mp_obj_new_int(ans);
+
+    // gcd(a, gcd(b, gcd(c, gcd(d, e)))))
+    do {
+        mp_int_t next_variable = mp_obj_get_int(args[--n_args]);
+        if (next_variable < 0) next_variable *= -1;
+        ans = gcd_func(next_variable, ans);
+    } while (n_args > 0);
     return mp_obj_new_int(ans);
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_2(mp_math_gcd_obj, mp_math_gcd);
+MP_DEFINE_CONST_FUN_OBJ_VAR(mp_math_gcd_obj, 2, mp_math_gcd);
 
 #endif // MICROPY_PY_MATH_SPECIAL_FUNCTIONS
 // TODO: fsum

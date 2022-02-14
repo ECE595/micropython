@@ -83,6 +83,9 @@ binary_functions = [
     ),
 ]
 
+print(gcd(1, 2, 3, 4))
+print(gcd(10, 20, 30, 40, 50, 60, 70))
+
 for function_name, function, test_vals in binary_functions:
     print(function_name)
     for value1, value2 in test_vals:
