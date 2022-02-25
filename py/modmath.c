@@ -200,35 +200,56 @@ MATH_FUN_1(gamma, tgamma)
 // lgamma(x): return the natural logarithm of the gamma function of x
 MATH_FUN_1(lgamma, lgamma)
 
-// gcd(x, y): return the greatest common divisor
-STATIC mp_int_t gcd_func(mp_int_t x, mp_int_t y) {
-    return (y != 0) ? gcd_func(y, x % y) : x;
-}
-STATIC mp_obj_t mp_math_gcd(size_t n_args, const mp_obj_t *args) {
-    mp_int_t e = mp_obj_get_int(args[--n_args]);
-    mp_int_t d = mp_obj_get_int(args[--n_args]);
-    // calc absolute value manually, makes it unnecessary to include stdlib
-    if (d < 0) {
-        d = -d;
-    }
-    if (e < 0) {
-        e = -e;
+/* gcd(x, y): return the greatest common divisor
+ GCD Pseudocode
+  * gcd(x,y)
+  * if x < y;
+  * x, y = y, x
+  *
+  * while y != 0:
+  *  x,y = y, x mod y
+  * return x
+*/
+STATIC mp_obj_t gcd_func(mp_obj_t x, mp_obj_t y) {
+    mp_obj_t temp;
+    if (mp_binary_op(MP_BINARY_OP_LESS, x, y) == mp_const_true) {
+        temp = x;
+        x = y;
+        y = temp;
     }
 
-    mp_int_t ans = gcd_func(d, e);
+    mp_obj_t zero = mp_obj_new_int(0);
+    while (mp_binary_op(MP_BINARY_OP_NOT_EQUAL, y, zero) == mp_const_true) {
+        temp = y;
+        y = mp_binary_op(MP_BINARY_OP_MODULO, x, y);
+        x = temp;
+    }
+    return x;
+}
+
+STATIC mp_obj_t gcd_preprocess_arg(mp_obj_t presumed_integer) {
+    if (!mp_obj_is_int(presumed_integer)) {
+        mp_raise_msg_varg(&mp_type_TypeError,
+            MP_ERROR_TEXT("can't convert %s to int"), mp_obj_get_type_str(presumed_integer));
+    }
+    return mp_unary_op(MP_UNARY_OP_ABS, presumed_integer);
+}
+
+STATIC mp_obj_t mp_math_gcd(size_t n_args, const mp_obj_t *args) {
+    mp_obj_t e = gcd_preprocess_arg(args[--n_args]);
+    mp_obj_t d = gcd_preprocess_arg(args[--n_args]);
+
+    mp_obj_t ans = gcd_func(d, e);
     if (n_args == 0) {
-        return mp_obj_new_int(ans);
+        return ans;
     }
 
     // gcd(a, gcd(b, gcd(c, gcd(d, e)))))
     do {
-        mp_int_t next_variable = mp_obj_get_int(args[--n_args]);
-        if (next_variable < 0) {
-            next_variable = -next_variable;
-        }
+        mp_obj_t next_variable = gcd_preprocess_arg(args[--n_args]);
         ans = gcd_func(next_variable, ans);
     } while (n_args > 0);
-    return mp_obj_new_int(ans);
+    return ans;
 }
 MP_DEFINE_CONST_FUN_OBJ_VAR(mp_math_gcd_obj, 2, mp_math_gcd);
 
