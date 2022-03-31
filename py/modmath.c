@@ -26,10 +26,12 @@
 
 #include "py/builtin.h"
 #include "py/runtime.h"
+#include "py/stackctrl.h"
 
 #if MICROPY_PY_BUILTINS_FLOAT && MICROPY_PY_MATH
 
 #include <math.h>
+#include <stdio.h>
 
 // M_PI is not part of the math.h standard and may not be defined
 // And by defining our own we can ensure it uses the correct const format.
@@ -259,11 +261,10 @@ STATIC mp_obj_t mp_math_dist(size_t n_args, const mp_obj_t *args){
     mp_obj_t * point2;  //second point
     size_t len1, len2;  //lengths of both points
 
+
+    // Converts the inputs into c array iterable
     mp_obj_get_array(args[0],&len1, &point1);
     mp_obj_get_array(args[1],&len2, &point2);
-
-//    printf("Length of point1: %lu\n", len1 );
-//    printf("Length of point2: %lu\n", len2 );
 
     //Checks to ensure both inputs have the same dimension
     if (len1 != len2) {
@@ -271,14 +272,39 @@ STATIC mp_obj_t mp_math_dist(size_t n_args, const mp_obj_t *args){
                           MP_ERROR_TEXT("Input points differ in size"));
     }
 
-    size_t i;
-    int total = 0;
-//    printf("Point 1: %ld", mp_obj_get_int(point1[1]));
+
+    size_t i; // index to iterate through p1 p2 componenets
+    int squaredDiff; //squared difference between p1 p2 components
+    mp_obj_t diff; // difference between p1 p2 components
+    mp_obj_t total = mp_obj_new_float(0); //sum of all squared differences
+
     for(i = 0; i < len1; i++) {
-        total += (mp_obj_get_int(point1[i]) - mp_obj_get_int(point2[i])) * (mp_obj_get_int(point1[i]) - mp_obj_get_int(point2[i]));
+
+        if (!mp_obj_is_int(point1[i])) {
+            mp_raise_msg_varg(&mp_type_TypeError,
+                              MP_ERROR_TEXT("can't convert %s to int"), mp_obj_get_type_str(point1[i]));
+        }
+        else if(!mp_obj_is_float(point1[i])) {
+            mp_raise_msg_varg(&mp_type_TypeError,
+                              MP_ERROR_TEXT("can't convert %s to float"), mp_obj_get_type_str(point1[i]));
+        }
+
+        if (!mp_obj_is_int(point2[i])) {
+            mp_raise_msg_varg(&mp_type_TypeError,
+                              MP_ERROR_TEXT("can't convert %s to int"), mp_obj_get_type_str(point2[i]));
+        }
+        else if(!mp_obj_is_float(point1[i])) {
+            mp_raise_msg_varg(&mp_type_TypeError,
+                              MP_ERROR_TEXT("can't convert %s to float"), mp_obj_get_type_str(point2[i]));
+        }
+
+        diff = mp_binary_op(MP_BINARY_OP_SUBTRACT, point1[i], point2[i]);
+        squaredDiff = mp_obj_get_int(diff); //pick up here always get a float here
+        squaredDiff = squaredDiff * squaredDiff;
+        total = mp_binary_op(MP_BINARY_OP_ADD, total, mp_obj_new_int(squaredDiff));
     }
 
-    double distance = sqrt(total);
+    double distance = sqrt(mp_obj_get_float(total));
 
     mp_obj_t final = mp_obj_new_float(distance);
     return final;
