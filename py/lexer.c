@@ -281,6 +281,7 @@ STATIC const char *const tok_kw[] = {
     "in",
     "is",
     "lambda",
+    "match",
     "nonlocal",
     "not",
     "or",

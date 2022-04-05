@@ -370,3 +370,10 @@ DEF_RULE_NC(comp_if, and(3), tok(KW_IF), rule(test_nocond), opt_rule(comp_iter))
 DEF_RULE(yield_expr, c(yield_expr), and(2), tok(KW_YIELD), opt_rule(yield_arg))
 DEF_RULE_NC(yield_arg, or(2), rule(yield_arg_from), rule(testlist))
 DEF_RULE_NC(yield_arg_from, and(2), tok(KW_FROM), rule(test))
+
+// Structural pattern matching
+//DEF_RULE(if_stmt, c(if_stmt), and(6), tok(KW_IF), rule(namedexpr_test), tok(DEL_COLON), rule(suite), opt_rule(if_stmt_elif_list), opt_rule(else_stmt))
+
+//DEF_RULE(match_stmt, c(match_stmt), and(6), tok(KW_MATCH), rule(namedexpr_test), tok(DEL_COLON), rule(suite), opt_rule(if_stmt_elif_list), opt_rule(else_stmt))
+//DEF_RULE(match_stmt, c(match_stmt), and(4), tok(KW_MATCH), rule(namedexpr_test), tok(DEL_COLON), rule(suite))
+DEF_RULE(match_stmt, c(match_stmt), and(2), tok(KW_MATCH), rule(testlist))

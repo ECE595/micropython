@@ -2751,6 +2751,10 @@ STATIC void compile_yield_expr(compiler_t *comp, mp_parse_node_struct_t *pns) {
     }
 }
 
+STATIC void compile_match_stmt(compiler_t*, mp_parse_node_struct_t*) {
+
+}
+
 #if MICROPY_PY_ASYNC_AWAIT
 STATIC void compile_atom_expr_await(compiler_t *comp, mp_parse_node_struct_t *pns) {
     if (comp->scope_cur->kind != SCOPE_FUNCTION && comp->scope_cur->kind != SCOPE_LAMBDA) {
