@@ -19,10 +19,7 @@ PIO_RX_PIN = Pin(3, Pin.IN, Pin.PULL_UP)
 
 
 @asm_pio(
-    autopush=True,
-    push_thresh=8,
-    in_shiftdir=rp2.PIO.SHIFT_RIGHT,
-    fifo_join=PIO.JOIN_RX,
+    autopush=True, push_thresh=8, in_shiftdir=rp2.PIO.SHIFT_RIGHT, fifo_join=PIO.JOIN_RX,
 )
 def uart_rx_mini():
     # fmt: off
@@ -39,9 +36,7 @@ def uart_rx_mini():
     # fmt: on
 
 
-@asm_pio(
-    in_shiftdir=rp2.PIO.SHIFT_RIGHT,
-)
+@asm_pio(in_shiftdir=rp2.PIO.SHIFT_RIGHT,)
 def uart_rx():
     # fmt: off
     label("start")

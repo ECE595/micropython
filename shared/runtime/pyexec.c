@@ -696,15 +696,15 @@ int pyexec_frozen_module(const char *name) {
     mp_find_frozen_module(name, &frozen_type, &frozen_data);
 
     switch (frozen_type) {
-        #if MICROPY_MODULE_FROZEN_STR
+    #if MICROPY_MODULE_FROZEN_STR
         case MP_FROZEN_STR:
             return parse_compile_execute(frozen_data, MP_PARSE_FILE_INPUT, 0);
-        #endif
+    #endif
 
-        #if MICROPY_MODULE_FROZEN_MPY
+    #if MICROPY_MODULE_FROZEN_MPY
         case MP_FROZEN_MPY:
             return parse_compile_execute(frozen_data, MP_PARSE_FILE_INPUT, EXEC_FLAG_SOURCE_IS_RAW_CODE);
-        #endif
+    #endif
 
         default:
             printf("could not find module '%s'\n", name);

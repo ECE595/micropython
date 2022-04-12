@@ -436,26 +436,26 @@ void i2c_ev_irq_handler(mp_uint_t i2c_id) {
     I2C_HandleTypeDef *hi2c;
 
     switch (i2c_id) {
-        #if defined(MICROPY_HW_I2C1_SCL)
+    #if defined(MICROPY_HW_I2C1_SCL)
         case 1:
             hi2c = &I2CHandle1;
             break;
-        #endif
-        #if defined(MICROPY_HW_I2C2_SCL)
+    #endif
+    #if defined(MICROPY_HW_I2C2_SCL)
         case 2:
             hi2c = &I2CHandle2;
             break;
-        #endif
-        #if defined(MICROPY_HW_I2C3_SCL)
+    #endif
+    #if defined(MICROPY_HW_I2C3_SCL)
         case 3:
             hi2c = &I2CHandle3;
             break;
-        #endif
-        #if defined(MICROPY_HW_I2C4_SCL)
+    #endif
+    #if defined(MICROPY_HW_I2C4_SCL)
         case 4:
             hi2c = &I2CHandle4;
             break;
-        #endif
+    #endif
         default:
             return;
     }
@@ -488,26 +488,26 @@ void i2c_er_irq_handler(mp_uint_t i2c_id) {
     I2C_HandleTypeDef *hi2c;
 
     switch (i2c_id) {
-        #if defined(MICROPY_HW_I2C1_SCL)
+    #if defined(MICROPY_HW_I2C1_SCL)
         case 1:
             hi2c = &I2CHandle1;
             break;
-        #endif
-        #if defined(MICROPY_HW_I2C2_SCL)
+    #endif
+    #if defined(MICROPY_HW_I2C2_SCL)
         case 2:
             hi2c = &I2CHandle2;
             break;
-        #endif
-        #if defined(MICROPY_HW_I2C3_SCL)
+    #endif
+    #if defined(MICROPY_HW_I2C3_SCL)
         case 3:
             hi2c = &I2CHandle3;
             break;
-        #endif
-        #if defined(MICROPY_HW_I2C4_SCL)
+    #endif
+    #if defined(MICROPY_HW_I2C4_SCL)
         case 4:
             hi2c = &I2CHandle4;
             break;
-        #endif
+    #endif
         default:
             return;
     }

@@ -26,8 +26,7 @@ def main():
     boards = {}
     for file in all_files:
         m = re.match(
-            rb"([a-z/.]+)/([A-Za-z0-9_-]+)-(20[0-9]{6})-unstable-(v[0-9.-]+-g[0-9a-f]+).",
-            file,
+            rb"([a-z/.]+)/([A-Za-z0-9_-]+)-(20[0-9]{6})-unstable-(v[0-9.-]+-g[0-9a-f]+).", file,
         )
         if not m:
             continue

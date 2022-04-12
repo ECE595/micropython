@@ -9,10 +9,7 @@ NUM_LEDS = 8
 
 
 @rp2.asm_pio(
-    sideset_init=rp2.PIO.OUT_LOW,
-    out_shiftdir=rp2.PIO.SHIFT_LEFT,
-    autopull=True,
-    pull_thresh=24,
+    sideset_init=rp2.PIO.OUT_LOW, out_shiftdir=rp2.PIO.SHIFT_LEFT, autopull=True, pull_thresh=24,
 )
 def ws2812():
     # fmt: off

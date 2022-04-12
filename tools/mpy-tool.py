@@ -41,6 +41,7 @@ if platform.python_version_tuple()[0] == "2":
         x = hexlify_py2(b)
         return ":".join(x[i : i + 2] for i in range(0, len(x), 2))
 
+
 else:
     from binascii import hexlify
 

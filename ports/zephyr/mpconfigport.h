@@ -171,7 +171,7 @@ extern const struct _mp_obj_module_t mp_module_zsensor;
     MICROPY_PY_USOCKET_DEF \
     MICROPY_PY_UTIME_DEF \
     MICROPY_PY_ZEPHYR_DEF \
-    MICROPY_PY_ZSENSOR_DEF \
+        MICROPY_PY_ZSENSOR_DEF \
 
 // extra built in names to add to the global namespace
 #define MICROPY_PORT_BUILTINS \

@@ -1,5 +1,3 @@
 freeze(
-    ".",
-    "neopixel.py",
-    opt=3,
+    ".", "neopixel.py", opt=3,
 )

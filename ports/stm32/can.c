@@ -68,7 +68,7 @@ bool can_init(pyb_can_obj_t *can_obj, uint32_t mode, uint32_t prescaler, uint32_
     const pin_obj_t *pins[2];
 
     switch (can_obj->can_id) {
-        #if defined(MICROPY_HW_CAN1_TX)
+    #if defined(MICROPY_HW_CAN1_TX)
         case PYB_CAN_1:
             CANx = CAN1;
             sce_irq = CAN1_SCE_IRQn;
@@ -76,9 +76,9 @@ bool can_init(pyb_can_obj_t *can_obj, uint32_t mode, uint32_t prescaler, uint32_
             pins[1] = MICROPY_HW_CAN1_RX;
             __HAL_RCC_CAN1_CLK_ENABLE();
             break;
-        #endif
+    #endif
 
-        #if defined(MICROPY_HW_CAN2_TX)
+    #if defined(MICROPY_HW_CAN2_TX)
         case PYB_CAN_2:
             CANx = CAN2;
             sce_irq = CAN2_SCE_IRQn;
@@ -87,9 +87,9 @@ bool can_init(pyb_can_obj_t *can_obj, uint32_t mode, uint32_t prescaler, uint32_
             __HAL_RCC_CAN1_CLK_ENABLE(); // CAN2 is a "slave" and needs CAN1 enabled as well
             __HAL_RCC_CAN2_CLK_ENABLE();
             break;
-        #endif
+    #endif
 
-        #if defined(MICROPY_HW_CAN3_TX)
+    #if defined(MICROPY_HW_CAN3_TX)
         case PYB_CAN_3:
             CANx = CAN3;
             sce_irq = CAN3_SCE_IRQn;
@@ -97,7 +97,7 @@ bool can_init(pyb_can_obj_t *can_obj, uint32_t mode, uint32_t prescaler, uint32_
             pins[1] = MICROPY_HW_CAN3_RX;
             __HAL_RCC_CAN3_CLK_ENABLE(); // CAN3 is a "master" and doesn't need CAN1 enabled as well
             break;
-        #endif
+    #endif
 
         default:
             return false;

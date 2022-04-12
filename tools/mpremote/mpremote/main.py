@@ -63,10 +63,7 @@ _COMMANDS = {
 
 _BUILTIN_COMMAND_EXPANSIONS = {
     # Device connection shortcuts.
-    "devs": {
-        "command": "connect list",
-        "help": "list available serial ports",
-    },
+    "devs": {"command": "connect list", "help": "list available serial ports",},
     # Filesystem shortcuts.
     "cat": "fs cat",
     "ls": "fs ls",
@@ -95,10 +92,7 @@ _BUILTIN_COMMAND_EXPANSIONS = {
         ],
         "help": "make the device enter its bootloader",
     },
-    "setrtc": [
-        "exec",
-        "import machine; machine.RTC().datetime((2020, 1, 1, 0, 10, 0, 0, 0))",
-    ],
+    "setrtc": ["exec", "import machine; machine.RTC().datetime((2020, 1, 1, 0, 10, 0, 0, 0))",],
     "--help": "help",
 }
 

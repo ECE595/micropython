@@ -663,9 +663,7 @@ def main():
         help="Whether to perform a soft reset when connecting to the board [default]",
     )
     group.add_argument(
-        "--no-soft-reset",
-        action="store_false",
-        dest="soft_reset",
+        "--no-soft-reset", action="store_false", dest="soft_reset",
     )
     group = cmd_parser.add_mutually_exclusive_group()
     group.add_argument(
@@ -675,9 +673,7 @@ def main():
         help="follow the output after running the scripts [default if no scripts given]",
     )
     group.add_argument(
-        "--no-follow",
-        action="store_false",
-        dest="follow",
+        "--no-follow", action="store_false", dest="follow",
     )
     group = cmd_parser.add_mutually_exclusive_group()
     group.add_argument(
@@ -687,9 +683,7 @@ def main():
         help="Open the serial device for exclusive access [default]",
     )
     group.add_argument(
-        "--no-exclusive",
-        action="store_false",
-        dest="exclusive",
+        "--no-exclusive", action="store_false", dest="exclusive",
     )
     cmd_parser.add_argument(
         "-f",

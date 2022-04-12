@@ -710,11 +710,11 @@ typedef struct _pyb_adc_all_obj_t {
 void adc_init_all(pyb_adc_all_obj_t *adc_all, uint32_t resolution, uint32_t en_mask) {
 
     switch (resolution) {
-        #if !defined(STM32H7)
+    #if !defined(STM32H7)
         case 6:
             resolution = ADC_RESOLUTION_6B;
             break;
-        #endif
+    #endif
         case 8:
             resolution = ADC_RESOLUTION_8B;
             break;
@@ -752,10 +752,10 @@ int adc_get_resolution(ADC_HandleTypeDef *adcHandle) {
     uint32_t res_reg = ADC_GET_RESOLUTION(adcHandle);
 
     switch (res_reg) {
-        #if !defined(STM32H7)
+    #if !defined(STM32H7)
         case ADC_RESOLUTION_6B:
             return 6;
-        #endif
+    #endif
         case ADC_RESOLUTION_8B:
             return 8;
         case ADC_RESOLUTION_10B:

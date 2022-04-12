@@ -261,7 +261,6 @@ STATIC mp_obj_t mp_math_dist(size_t n_args, const mp_obj_t *args){
     mp_obj_t * point2;  //second point
     size_t len1, len2;  //lengths of both points
 
-
     // Converts the inputs into c array iterable
     mp_obj_get_array(args[0],&len1, &point1);
     mp_obj_get_array(args[1],&len2, &point2);
@@ -272,42 +271,24 @@ STATIC mp_obj_t mp_math_dist(size_t n_args, const mp_obj_t *args){
                           MP_ERROR_TEXT("Input points differ in size"));
     }
 
-
     size_t i; // index to iterate through p1 p2 componenets
-    int squaredDiff; //squared difference between p1 p2 components
     mp_obj_t diff; // difference between p1 p2 components
     mp_obj_t total = mp_obj_new_float(0); //sum of all squared differences
 
     for(i = 0; i < len1; i++) {
-
-        if (!mp_obj_is_int(point1[i])) {
+        if (!mp_obj_is_float(point1[i]) && !mp_obj_is_int(point1[1])) {
             mp_raise_msg_varg(&mp_type_TypeError,
-                              MP_ERROR_TEXT("can't convert %s to int"), mp_obj_get_type_str(point1[i]));
+                              MP_ERROR_TEXT("can't convert %s in first argument to int"), mp_obj_get_type_str(point1[i]));
         }
-        else if(!mp_obj_is_float(point1[i])) {
+        if (!mp_obj_is_float(point2[i]) && !mp_obj_is_int(point2[1])) {
             mp_raise_msg_varg(&mp_type_TypeError,
-                              MP_ERROR_TEXT("can't convert %s to float"), mp_obj_get_type_str(point1[i]));
+                              MP_ERROR_TEXT("can't convert %s in second argument to int"), mp_obj_get_type_str(point1[i]));
         }
-
-        if (!mp_obj_is_int(point2[i])) {
-            mp_raise_msg_varg(&mp_type_TypeError,
-                              MP_ERROR_TEXT("can't convert %s to int"), mp_obj_get_type_str(point2[i]));
-        }
-        else if(!mp_obj_is_float(point1[i])) {
-            mp_raise_msg_varg(&mp_type_TypeError,
-                              MP_ERROR_TEXT("can't convert %s to float"), mp_obj_get_type_str(point2[i]));
-        }
-
         diff = mp_binary_op(MP_BINARY_OP_SUBTRACT, point1[i], point2[i]);
-        squaredDiff = mp_obj_get_int(diff); //pick up here always get a float here
-        squaredDiff = squaredDiff * squaredDiff;
-        total = mp_binary_op(MP_BINARY_OP_ADD, total, mp_obj_new_int(squaredDiff));
+        diff = mp_math_pow(diff, mp_obj_new_int(2));
+        total = mp_binary_op(MP_BINARY_OP_ADD, total, diff);
     }
-
-    double distance = sqrt(mp_obj_get_float(total));
-
-    mp_obj_t final = mp_obj_new_float(distance);
-    return final;
+    return mp_math_sqrt(total);
 }
 
 MP_DEFINE_CONST_FUN_OBJ_VAR(mp_math_dist_obj, 2, mp_math_dist);
