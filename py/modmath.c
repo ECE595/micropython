@@ -200,6 +200,30 @@ MATH_FUN_1(gamma, tgamma)
 // lgamma(x): return the natural logarithm of the gamma function of x
 MATH_FUN_1(lgamma, lgamma)
 #endif
+
+/* math.hypot(*coordinates)
+Return the Euclidean norm, sqrt(sum(x**2 for x in coordinates)). 
+This is the length of the vector from the origin to the point given by the coordinates.
+least common multiple of x and y
+*/
+STATIC mp_obj_t mp_math_hypot(size_t n_args, const mp_obj_t *args){
+    mp_float_t a;
+    mp_float_t a_pow2;
+    mp_float_t ans;
+    mp_obj_t  result;
+    ans = (mp_float_t)0.0;
+    for(size_t i = 0 ; i < n_args ; i++){
+        a = mp_obj_get_float(args[i]);
+        // printf("Point : %f \n", a);
+        a_pow2 = MICROPY_FLOAT_C_FUN(pow)(a, 2);
+        ans += a_pow2; 
+    }
+    result = mp_obj_new_float(MICROPY_FLOAT_C_FUN(sqrt)(ans));
+    return result;
+}
+
+MP_DEFINE_CONST_FUN_OBJ_VAR(mp_math_hypot_obj, 2, mp_math_hypot);
+
 // TODO: fsum
 
 #if MICROPY_PY_MATH_ISCLOSE
@@ -425,6 +449,7 @@ STATIC const mp_rom_map_elem_t mp_module_math_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR_erfc), MP_ROM_PTR(&mp_math_erfc_obj) },
     { MP_ROM_QSTR(MP_QSTR_gamma), MP_ROM_PTR(&mp_math_gamma_obj) },
     { MP_ROM_QSTR(MP_QSTR_lgamma), MP_ROM_PTR(&mp_math_lgamma_obj) },
+    { MP_ROM_QSTR(MP_QSTR_hypot), MP_ROM_PTR(&mp_math_hypot_obj) },
     #endif
 };
 

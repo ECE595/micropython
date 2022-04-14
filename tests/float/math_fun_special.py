@@ -50,3 +50,35 @@ for function_name, function, test_vals in functions:
             print("{:.4g}".format(function(value)))
         except ValueError as e:
             print(str(e))
+
+
+# Tests for hypot
+# https://github.com/python/cpython/blob/main/Lib/test/test_math.py
+
+
+def assertRaises(exception, func, *args):
+    try:
+        print(func(*args))
+        assert False
+    except exception:
+        pass
+
+# Test allowable types (those with __float__)
+    print(hypot(12.0, 5.0))
+    print(hypot(12, 5), 13)
+    print(hypot(Decimal(12), Decimal(5)))
+    print(hypot(Fraction(12, 32), Fraction(5, 32)))
+    print(hypot(bool(1), bool(0), bool(1), bool(1)))
+
+        # Test corner cases
+    print(hypot(0.0, 0.0))     # Max input is zero
+    print(hypot(-10.5))       # Negative input
+    print(hypot())             # Negative input
+    print(                          # Handling of moving max to the end
+        hypot(1.5, 1.5, 0.5),
+        hypot(1.5, 0.5, 1.5),
+    )
+
+
+assertRaises(TypeError, hypot, x=1)
+assertRaises(TypeError, hypot, 1.1, 'string', 2.2)
