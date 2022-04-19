@@ -276,13 +276,13 @@ STATIC mp_obj_t mp_math_dist(size_t n_args, const mp_obj_t *args){
     mp_obj_t total = mp_obj_new_float(0); //sum of all squared differences
 
     for(i = 0; i < len1; i++) {
-        if (!mp_obj_is_float(point1[i]) && !mp_obj_is_int(point1[1])) {
+        if (!mp_obj_is_float(point1[i]) && !mp_obj_is_int(point1[i])) {
             mp_raise_msg_varg(&mp_type_TypeError,
                               MP_ERROR_TEXT("can't convert %s in first argument to int"), mp_obj_get_type_str(point1[i]));
         }
-        if (!mp_obj_is_float(point2[i]) && !mp_obj_is_int(point2[1])) {
+        if (!mp_obj_is_float(point2[i]) && !mp_obj_is_int(point2[i])) {
             mp_raise_msg_varg(&mp_type_TypeError,
-                              MP_ERROR_TEXT("can't convert %s in second argument to int"), mp_obj_get_type_str(point1[i]));
+                              MP_ERROR_TEXT("can't convert %s in second argument to int"), mp_obj_get_type_str(point2[i]));
         }
         diff = mp_binary_op(MP_BINARY_OP_SUBTRACT, point1[i], point2[i]);
         diff = mp_math_pow(diff, mp_obj_new_int(2));
