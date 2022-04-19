@@ -276,7 +276,7 @@ extern const struct _mp_obj_type_t network_lan_type;
 
 #define MICROPY_PORT_NETWORK_INTERFACES \
     MICROPY_HW_NIC_ETH  \
-    MICROPY_BOARD_NETWORK_INTERFACES \
+        MICROPY_BOARD_NETWORK_INTERFACES \
 
 #define MICROPY_HW_PIT_NUM_CHANNELS 3
 
