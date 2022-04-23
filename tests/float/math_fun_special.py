@@ -79,6 +79,3 @@ def assertRaises(exception, func, *args):
         hypot(1.5, 0.5, 1.5),
     )
 
-
-assertRaises(TypeError, hypot, x=1)
-assertRaises(TypeError, hypot, 1.1, 'string', 2.2)

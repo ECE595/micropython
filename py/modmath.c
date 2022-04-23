@@ -210,16 +210,13 @@ STATIC mp_obj_t mp_math_hypot(size_t n_args, const mp_obj_t *args){
     mp_float_t a;
     mp_float_t a_pow2;
     mp_float_t ans;
-    mp_obj_t  result;
     ans = (mp_float_t)0.0;
     for(size_t i = 0 ; i < n_args ; i++){
         a = mp_obj_get_float(args[i]);
-        // printf("Point : %f \n", a);
         a_pow2 = MICROPY_FLOAT_C_FUN(pow)(a, 2);
         ans += a_pow2; 
     }
-    result = mp_obj_new_float(MICROPY_FLOAT_C_FUN(sqrt)(ans));
-    return result;
+    return mp_obj_new_float(MICROPY_FLOAT_C_FUN(sqrt)(ans));
 }
 
 MP_DEFINE_CONST_FUN_OBJ_VAR(mp_math_hypot_obj, 2, mp_math_hypot);
