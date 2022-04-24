@@ -200,15 +200,15 @@ MATH_FUN_1(gamma, tgamma)
 // lgamma(x): return the natural logarithm of the gamma function of x
 MATH_FUN_1(lgamma, lgamma)
 
-STATIC mp_obj_t mp_math_hypot(size_t n_args, const mp_obj_t *args){
+STATIC mp_obj_t mp_math_hypot(size_t n_args, const mp_obj_t *args) {
     mp_float_t a;
     mp_float_t a_pow2;
     mp_float_t ans;
     ans = (mp_float_t)0.0;
-    for(size_t i = 0 ; i < n_args ; i++){
+    for (size_t i = 0; i < n_args; i++) {
         a = mp_obj_get_float(args[i]);
         a_pow2 = MICROPY_FLOAT_C_FUN(pow)(a, 2);
-        ans += a_pow2; 
+        ans += a_pow2;
     }
     return mp_obj_new_float(MICROPY_FLOAT_C_FUN(sqrt)(ans));
 }
