@@ -64,18 +64,15 @@ def assertRaises(exception, func, *args):
         pass
 
 # Test allowable types (those with __float__)
-    print(hypot(12.0, 5.0))
-    print(hypot(12, 5), 13)
-    print(hypot(Decimal(12), Decimal(5)))
-    print(hypot(Fraction(12, 32), Fraction(5, 32)))
-    print(hypot(bool(1), bool(0), bool(1), bool(1)))
+print(hypot(12.0, 5.0))
+print(hypot(12, 5), 13)
+print(hypot(Decimal(12), Decimal(5)))
+print(hypot(Fraction(12, 32), Fraction(5, 32)))
+print(hypot(bool(1), bool(0), bool(1), bool(1)))
 
-        # Test corner cases
-    print(hypot(0.0, 0.0))     # Max input is zero
-    print(hypot(-10.5))       # Negative input
-    print(hypot())             # Negative input
-    print(                          # Handling of moving max to the end
-        hypot(1.5, 1.5, 0.5),
-        hypot(1.5, 0.5, 1.5),
-    )
+# Test corner cases
+print(hypot(0.0, 0.0))     # Max input is zero
+print(hypot(-10.5))       # Negative input
+print(hypot())             # Negative input
+print(hypot(1.5, 1.5, 0.5), hypot(1.5, 0.5, 1.5),)# Handling of moving max to the end
 

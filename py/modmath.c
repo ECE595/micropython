@@ -199,13 +199,7 @@ MATH_FUN_1(erfc, erfc)
 MATH_FUN_1(gamma, tgamma)
 // lgamma(x): return the natural logarithm of the gamma function of x
 MATH_FUN_1(lgamma, lgamma)
-#endif
 
-/* math.hypot(*coordinates)
-Return the Euclidean norm, sqrt(sum(x**2 for x in coordinates)). 
-This is the length of the vector from the origin to the point given by the coordinates.
-least common multiple of x and y
-*/
 STATIC mp_obj_t mp_math_hypot(size_t n_args, const mp_obj_t *args){
     mp_float_t a;
     mp_float_t a_pow2;
@@ -220,6 +214,8 @@ STATIC mp_obj_t mp_math_hypot(size_t n_args, const mp_obj_t *args){
 }
 
 MP_DEFINE_CONST_FUN_OBJ_VAR(mp_math_hypot_obj, 2, mp_math_hypot);
+
+#endif
 
 // TODO: fsum
 
