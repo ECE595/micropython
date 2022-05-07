@@ -143,6 +143,21 @@ STATIC mp_obj_t dict_unary_op(mp_unary_op_t op, mp_obj_t self_in) {
     }
 }
 
+STATIC void dict_union_helper(mp_obj_dict_t *self, mp_obj_t other) {
+    size_t current_key = 0;
+    mp_map_elem_t *iter;
+    while((iter = dict_iter_next(MP_OBJ_TO_PTR(other), &current_key)) != NULL) {
+        mp_map_lookup(&self->map, iter->key, MP_MAP_LOOKUP_ADD_IF_NOT_FOUND)->value = iter->value;
+    }
+}
+
+STATIC mp_obj_t dict_union(mp_obj_t lhs, mp_obj_t rhs) {
+    mp_check_self(mp_obj_is_dict_or_ordereddict(self_in));
+    mp_obj_t merged_dict = mp_obj_dict_copy(lhs);
+    dict_union_helper(MP_OBJ_TO_PTR(merged_dict), rhs);
+    return merged_dict;
+}
+
 STATIC mp_obj_t dict_binary_op(mp_binary_op_t op, mp_obj_t lhs_in, mp_obj_t rhs_in) {
     mp_obj_dict_t *o = MP_OBJ_TO_PTR(lhs_in);
     switch (op) {
@@ -186,6 +201,12 @@ STATIC mp_obj_t dict_binary_op(mp_binary_op_t op, mp_obj_t lhs_in, mp_obj_t rhs_
                 return mp_const_false;
             }
         }
+
+        case MP_BINARY_OP_INPLACE_OR:
+        case MP_BINARY_OP_OR: {
+            return dict_union(lhs_in, rhs_in);
+        }
+
         default:
             // op not supported
             return MP_OBJ_NULL;
